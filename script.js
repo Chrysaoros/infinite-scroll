@@ -2,12 +2,27 @@
 const IMAGE_CONTAINER = document.getElementById("image-container");
 const LOADER = document.getElementById("loader");
 
+let totalImages = 0;
+let imagesLoaded = 0;
+loadMoreImages = false;
 let PHOTOS_ARRAY = [];
 
 // Unsplash API
 const query = "space";
-const count = 10;
+const count = 20;
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${publicApiKey}&query=${query}&count=${count}`;
+
+function countImagesLoaded() {
+  imagesLoaded++;
+  console.log("Image loaded");
+
+  if (imagesLoaded === totalImages) {
+    loadMoreImages = true;
+    console.log("Load more images = ", loadMoreImages);
+
+    if (!LOADER.hidden) LOADER.hidden = true;
+  }
+}
 
 // Helper function to set attributes on DOM elements
 function setAttributes(element, attributes) {
@@ -18,7 +33,8 @@ function setAttributes(element, attributes) {
 
 // Create elements for links and photos, add to DOM
 function displayPhotos() {
-  let attributes = {};
+  totalImages = PHOTOS_ARRAY.length;
+  console.log("Total Images got:", totalImages);
 
   PHOTOS_ARRAY.forEach((photo) => {
     // Create <a> to link to Unsplash
@@ -36,6 +52,9 @@ function displayPhotos() {
       title: photo.alt_description,
     });
 
+    // Event listener for each loaded image
+    img.addEventListener("load", countImagesLoaded);
+
     // Add <img> to <a> element, add <a> to image-container
     item.appendChild(img);
     IMAGE_CONTAINER.appendChild(item);
@@ -48,9 +67,26 @@ async function getPhotos() {
     const response = await fetch(apiUrl);
     PHOTOS_ARRAY = await response.json();
 
-    // displayPhotos();
+    displayPhotos();
   } catch (error) {}
 }
 
+//
+window.addEventListener("scroll", () => {
+  if (
+    window.innerHeight + window.scrollY >= document.body.offsetHeight - 1000 &&
+    loadMoreImages
+  ) {
+    loadMoreImages = false;
+    imagesLoaded = 0;
+    console.log("Loading more images...");
+    getPhotos();
+    // console.log("window.innerHeight:", window.innerHeight);
+    // console.log("window.scrollY:", window.scrollY);
+    // console.log("innerHeight + scrollY:", window.innerHeight + window.scrollY);
+    // console.log("offsetHeight - 1000:", document.body.offsetHeight);
+  }
+});
+
 // On Load
-// getPhotos();
+getPhotos();
