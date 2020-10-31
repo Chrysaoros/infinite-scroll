@@ -1,29 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Custom favicon -->
-    <link rel="icon" type="image/png" href="https://www.google.com/s2/favicons?domain=jacinto.design">
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://www.google.com/s2/favicons?domain=jacinto.design"
+    />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <!-- Script -->
+    <script src="config.js" defer></script>
     <script src="script.js" defer></script>
     <title>Infinite Scroll</title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Title -->
     <h1>Unsplash API - Infinite Scroll</h1>
 
     <!-- Loader -->
-    <div class="loader" id="loader">
-        <img src="" alt="">
+    <div class="loader" id="loader" hidden>
+      <img src="loader.svg" />
     </div>
 
     <!-- Image Container -->
-    <div class="image-container" id="image-container">
-        <img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1387&q=80">
-        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80">
-    </div>
-</body>
+    <div class="image-container" id="image-container"></div>
+  </body>
 </html>
